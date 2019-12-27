@@ -16,7 +16,7 @@ I think no synchronization is needed. This is inside a thread.
 Maybe copy the command string to the stack will help. This might make me finish the work faster.
 
 ## Task 2: Process Control Syscalls
-1.Data structures and functions
+### 1. Data structures and functions
 
 I plan to add the following structures in pintos/src/userprog/process.h:
 struct pnode {
@@ -39,7 +39,7 @@ struct thread {
   ...
 }
 
-2.Algorithms
+### 2. Algorithms
 All syscalls will be implemented in syscall_handler ()(at pintos/src/userprog).
 Practice
 Take args[1], increment it, and store it in the eax register of the interrupt frame.
@@ -59,16 +59,16 @@ Look for a pnode in the current thread's children list whose pid equals the give
 
 A thread will call sema_up ()(at pintos/src/threads/synch.c) on its pnode semaphore at the end of process_exit ()(at pintos/src/userprog/process.c). The default value of exit_status will be -1, but if the exit syscall was used, this value will be overwritten with the provided value.
 
-3.Synchronization
+### 3. Synchronization
 I think no synchronization is needed. This is inside a thread.
 
-4.Rationale
+### 4. Rationale
 Initially, we wanted to use a pair of locks instead of a semaphore to take advantage of priority donations, but we found it was too difficult to coordinate. The child process would need to acquire them before the parent, but there is no guarantee that the child will run before the parent returns from thread_create.
 
 We decided to create a new struct to hold information about child processes that need to persist even after the child is terminated. Since it's possible for a child to load and terminate before the parent process returns from thread_create (), this includes the semaphore used to signal the parent that the child has finished loading, as well as the boolean indicating success. We also found that pnodes were a better way for parent and child processes to keep track of each other, since a parent can easily maintain a linked list of pnodes, and it also made more sense for a child to possess a pointer to its pnode than directly to its parent (which was our original idea).
 
 ## Task 3: File Operation Syscalls
-1.Data structures and functions
+### 1. Data structures and functions
 In syscall.c(at pintos/src/lib/user/syscall.c)
 struct lock file_lock; 
 
@@ -88,7 +88,7 @@ struct files* get_file_instance_from_fd(int fd);
 struct files* get_file_instance_from_name(int file_name_); 
 int get_cur_fd();
 
-2.Algorithms
+### 2. Algorithms
 Initialize the file_lock inside syscall_init.
 
 Create: Acquire the file_lock to ensure that no process can intrupt the creation. Then use filesys_create to create the file. Release the file_lock after creation.
@@ -109,10 +109,10 @@ Tell: Get the FILES object with the corresponding fd and call file_tell on its f
 
 Close: Get the FILES object with the corresponding fd and call file_close on its file_instance.
 
-3.Synchronization
+### 3. Synchronization
 In order to prevent intruption during any of the file syscalls, all of the above filesystem syscalls have to acquire the file_lock in the very beginning of the function and release the file_lock right before it returns. Hence, there should not have any intruption in the middle of the file modification. There should not be any synchronization issue.
 
-4.Rationale
+### 4. Rationale
 There is another approach to store the files in an array, but the array has a fix size and we cannot modify the array size or remove the element after we initialize it, meanwhile we do not know the maximum amount of files a process can hold, we choose to use a linked-list structure instead. Obviousely, we access time of array is faster than the linked-list's, since it cannot be modify and the linked-list structure is provided already, we choose to maintain the files in the linked-list.
 
 ## Additional Questions  
