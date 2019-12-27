@@ -1,18 +1,18 @@
 # Design Document for Project 1: User Programs    
 ## Task 1: Argument Passing
-1.Data structures and functions
+### Data structures and functions
 
 In pintos/src/userprog/process.c
 I may change this function:
 static void start_process (void *file_name_);
 
-2.Algorithms
+### Algorithms
 I may use tokenize to parse the input
 
-3.Synchronization
+### Synchronization
 I think no synchronization is needed. This is inside a thread.
 
-4.Rationale
+### Rationale
 Maybe copy the command string to the stack will help. This might make me finish the work faster.
 
 ## Task 2: Process Control Syscalls
