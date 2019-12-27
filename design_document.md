@@ -1,7 +1,5 @@
-# Design Document for Project 1: User Programs   
-  
-## 1. Design Overview  
-Task 1: Argument Passing
+# Design Document for Project 1: User Programs    
+## Task 1: Argument Passing
 1.Data structures and functions
 
 In pintos/src/userprog/process.c
@@ -17,7 +15,7 @@ I think no synchronization is needed. This is inside a thread.
 4.Rationale
 Maybe copy the command string to the stack will help. This might make me finish the work faster.
 
-Task 2: Process Control Syscalls
+## Task 2: Process Control Syscalls
 1.Data structures and functions
 
 I plan to add the following structures in pintos/src/userprog/process.h:
@@ -69,7 +67,7 @@ Initially, we wanted to use a pair of locks instead of a semaphore to take advan
 
 We decided to create a new struct to hold information about child processes that need to persist even after the child is terminated. Since it's possible for a child to load and terminate before the parent process returns from thread_create (), this includes the semaphore used to signal the parent that the child has finished loading, as well as the boolean indicating success. We also found that pnodes were a better way for parent and child processes to keep track of each other, since a parent can easily maintain a linked list of pnodes, and it also made more sense for a child to possess a pointer to its pnode than directly to its parent (which was our original idea).
 
-Task 3: File Operation Syscalls
+## Task 3: File Operation Syscalls
 1.Data structures and functions
 In syscall.c(at pintos/src/lib/user/syscall.c)
 struct lock file_lock; 
@@ -117,7 +115,7 @@ In order to prevent intruption during any of the file syscalls, all of the above
 4.Rationale
 There is another approach to store the files in an array, but the array has a fix size and we cannot modify the array size or remove the element after we initialize it, meanwhile we do not know the maximum amount of files a process can hold, we choose to use a linked-list structure instead. Obviousely, we access time of array is faster than the linked-list's, since it cannot be modify and the linked-list structure is provided already, we choose to maintain the files in the linked-list.
 
-1. Additional Questions  
+## Additional Questions  
 Sc-bad-sp.c: Invokes a system call with the stack pointer (%esp) set to a bad address. The process must be terminated with -1 exit code.
 
 Sc-bad-arg.c: Sticks a system call number (SYS_EXIT) at the very top of the stack, then invokes a system call with the stack pointer (%esp) set to its address. The process must be terminated with -1 exit code because the argument to the system call would be above the top of the user address space.
