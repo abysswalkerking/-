@@ -1,10 +1,5 @@
 # Design Document for Project 1: User Programs   
-
-Design Overview  
-Additional Questions  
-
-Design Document for Project 1: User Programs
-Design Overview
+## Design Overview  
 Task 1: Argument Passing
 1.Data structures and functions
 
@@ -121,7 +116,7 @@ In order to prevent intruption during any of the file syscalls, all of the above
 4.Rationale
 There is another approach to store the files in an array, but the array has a fix size and we cannot modify the array size or remove the element after we initialize it, meanwhile we do not know the maximum amount of files a process can hold, we choose to use a linked-list structure instead. Obviousely, we access time of array is faster than the linked-list's, since it cannot be modify and the linked-list structure is provided already, we choose to maintain the files in the linked-list.
 
-Additional Questions
+## Additional Questions  
 Sc-bad-sp.c: Invokes a system call with the stack pointer (%esp) set to a bad address. The process must be terminated with -1 exit code.
 
 Sc-bad-arg.c: Sticks a system call number (SYS_EXIT) at the very top of the stack, then invokes a system call with the stack pointer (%esp) set to its address. The process must be terminated with -1 exit code because the argument to the system call would be above the top of the user address space.
