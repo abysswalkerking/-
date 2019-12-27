@@ -3,7 +3,7 @@
 ### 1. Data structures and functions
 
 In pintos/src/userprog/process.c
-I may change this function:
+I may change this function:  
 ```
 static void start_process (void *file_name_);
 ```
@@ -20,6 +20,7 @@ Maybe copy the command string to the stack will help. This might make me finish 
 ### 1. Data structures and functions
 
 I plan to add the following structures in pintos/src/userprog/process.h:
+```
 struct pnode {
   pid_t pid;
   bool loaded;
@@ -27,8 +28,9 @@ struct pnode {
   struct semaphore sema;
   int exit_status; //default is -1
 }
-
-and in pintos/src/threads/thread.h
+```
+and in pintos/src/threads/thread.h:
+```
 struct thread {
   ...
 #ifdef USERPROG
@@ -39,7 +41,7 @@ struct thread {
 #endif
   ...
 }
-
+```
 ### 2. Algorithms
 All syscalls will be implemented in syscall_handler ()(at pintos/src/userprog).
 Practice
@@ -70,25 +72,29 @@ We decided to create a new struct to hold information about child processes that
 
 ## Task 3: File Operation Syscalls
 ### 1. Data structures and functions
-In syscall.c(at pintos/src/lib/user/syscall.c)
+In syscall.c(at pintos/src/lib/user/syscall.c):
+```
 struct lock file_lock; 
-
-In syscall.h(at pintos/src/lib/user/syscall.h)
+```
+In syscall.h(at pintos/src/lib/user/syscall.h):
+```
 struct files{
 	int fd;
 	struct file *file_instance;
 	const char *file_name;
 }
-
-In thread.h(at pintos/src/threads/thread.h)
+```
+In thread.h(at pintos/src/threads/thread.h):
+```
 struct list file_list; 
 int cur_fd; 
-
-In syscall.c
+```
+In syscall.c:
+```
 struct files* get_file_instance_from_fd(int fd); 
 struct files* get_file_instance_from_name(int file_name_); 
 int get_cur_fd();
-
+```
 ### 2. Algorithms
 Initialize the file_lock inside syscall_init.
 
